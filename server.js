@@ -1,0 +1,60 @@
+const express = require('express')
+const morgan = require('morgan')
+const dotenv = require('dotenv')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const port = process.env.PORT || 5000
+
+dotenv.config({
+  path: './config.env'
+})
+
+const app = express()
+
+// Import Routes
+const blogRoute = require('./routes/blogs')
+const userRoute = require('./routes/users')
+
+app.use('/blogs', blogRoute)
+
+mongoose.connect(
+  process.env.DB_KEY,
+  {
+    useNewUrlParser: true
+  }, 
+  () => console.log('connected to db'))
+  
+
+// Middleware
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: false
+//   })
+// );
+// app.use(bodyParser.json())
+
+
+
+// // Dev Logging
+// if (process.env.NODE_ENV === 'development') {
+//   app.use(morgan('dev'))
+// }
+
+// Handle Production
+// if (process.env.NODE_ENV === 'production') {
+//   // Set static folder
+//   app.use(express.static(__dirname + '/public/'));
+
+//   // Handle SPA
+//   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+// }
+
+
+app.get('/', (req, res) => {
+  res.send('Hello')
+})
+
+
+app.listen(port, () => {
+  console.log(`App running on ${process.env.NODE_ENV} mode on port ${port}`)
+})
