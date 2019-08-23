@@ -13,8 +13,15 @@ const app = express()
 
 // Import Routes
 const blogRoute = require('./routes/blogs')
-const userRoute = require('./routes/users')
+// const userRoute = require('./routes/users')
 
+// Middleware
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
+app.use(bodyParser.json())
 app.use('/blogs', blogRoute)
 
 mongoose.connect(
@@ -25,13 +32,7 @@ mongoose.connect(
   () => console.log('connected to db'))
   
 
-// Middleware
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: false
-//   })
-// );
-// app.use(bodyParser.json())
+
 
 
 
