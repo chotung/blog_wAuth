@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const port = process.env.PORT || 5000
-
+const cors = require('cors')
 dotenv.config({
   path: './config.env'
 })
@@ -19,7 +19,8 @@ const blogRoute = require('./routes/blogs')
 app.use(
   bodyParser.urlencoded({
     extended: false
-  })
+  }),
+  cors()
 );
 app.use(bodyParser.json())
 app.use('/blogs', blogRoute)
