@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const port = process.env.PORT || 5000
 const cors = require('cors')
+const passport = require('passport')
+
+
 dotenv.config({
   path: './config.env'
 })
@@ -13,7 +16,7 @@ const app = express()
 
 // Import Routes
 const blogRoute = require('./routes/blogs')
-// const userRoute = require('./routes/users')
+const userRoute = require('./routes/users')
 
 // Middleware
 app.use(
@@ -23,7 +26,14 @@ app.use(
   cors()
 );
 app.use(bodyParser.json())
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
 app.use('/blogs', blogRoute)
+app.use('/users', userRoute)
+
+
 
 mongoose.connect(
   process.env.DB_KEY,
